@@ -1,0 +1,25 @@
+<% content_for :title, @book.title %>
+
+<% if notice.present? %>
+  <p><%= notice %></p>
+<% end %>
+
+<h1><%= @book.title %></h1>
+
+<dl>
+  <dt>Author</dt>
+  <dd><%= @book.author %></dd>
+
+  <dt>Published</dt>
+  <dd><%= @book.published_on %></dd>
+
+  <dt>Cost</dt>
+  <dd><%= number_to_currency(@book.cost) %></dd>
+</dl>
+
+<%= render "votes/button", book: @book, voted: @voted %>
+
+<%= link_to "Back to Books", books_path %>
+|
+<%= button_to "Delete", book_path(@book), method: :delete,
+    data: { confirm: "Delete #{@book.title}?" } %>

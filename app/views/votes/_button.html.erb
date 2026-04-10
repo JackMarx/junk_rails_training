@@ -1,0 +1,5 @@
+<%= button_to book_vote_path(book),
+    method: :post,
+    class: "vote-btn#{ ' vote-btn--active' if voted }" do %>
+  <%= voted ? "★ Voted" : "☆ Vote" %>
+<% end %>

@@ -1,0 +1,42 @@
+<% content_for :title, "Staff Picks" %>
+
+<div class="staff-picks-header">
+  <h1>Staff Picks</h1>
+  <p class="staff-picks-subtitle">Our favourite reads, chosen by you.</p>
+</div>
+
+<% if @books_with_stars.any? %>
+  <ol class="staff-picks-list">
+    <% @books_with_stars.each do |book, stars| %>
+      <%
+        rounded = (stars * 2).round / 2.0
+      %>
+      <li class="staff-picks-item">
+        <div class="staff-picks-item__stars" aria-label="<%= stars.zero? ? 'N/a' : "#{'%.1f' % stars} out of 5 stars" %>">
+          <% if stars.zero? %>
+            <span class="star-na">N/a</span>
+          <% else %>
+            <% 5.times do |i| %>
+              <% if i + 1 <= rounded %>
+                <span class="star star--full" aria-hidden="true">★</span>
+              <% elsif i + 0.5 == rounded %>
+                <span class="star star--half" aria-hidden="true">★</span>
+              <% else %>
+                <span class="star star--empty" aria-hidden="true">☆</span>
+              <% end %>
+            <% end %>
+          <% end %>
+        </div>
+        <div class="staff-picks-item__info">
+          <span class="staff-picks-item__title"><%= link_to book.title, book_path(book) %></span>
+          <span class="staff-picks-item__author">by <%= book.author %></span>
+        </div>
+        <div class="staff-picks-item__action">
+          <%= render "votes/button", book: book, voted: @voted_book_ids.include?(book.id) %>
+        </div>
+      </li>
+    <% end %>
+  </ol>
+<% else %>
+  <p class="staff-picks-empty">No picks yet — browse <%= link_to "The Stacks", books_path %> and cast the first vote.</p>
+<% end %>

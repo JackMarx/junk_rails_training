@@ -1,0 +1,755 @@
+/* ═══════════════════════════════════════════════════
+   THE OLD LIBRARY — a worn-pages, warm-light theme
+   ═══════════════════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Uncial+Antiqua&display=swap');
+
+/* ── Custom Properties ─────────────────────────── */
+:root {
+  --parchment:      #f2e4c4;
+  --parchment-dark: #e8d5a8;
+  --cream:          #faf5e9;
+  --amber:          #b8782a;
+  --amber-deep:     #8b5a1a;
+  --mahogany:       #2c1208;
+  --mahogany-mid:   #4a200e;
+  --ink:            #1a0c02;
+  --ink-faded:      #3d2410;
+  --rust:           #8b3a1a;
+  --gold:           #c9962a;
+  --gold-light:     #e8c168;
+  --shadow:         rgba(26, 12, 2, 0.35);
+  --shadow-soft:    rgba(26, 12, 2, 0.15);
+
+  --font-display:   'Cormorant Garamond', Georgia, serif;
+  --font-body:      'EB Garamond', Georgia, serif;
+  --font-drop:      'Uncial Antiqua', serif;
+}
+
+/* ── Reset & Base ──────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 18px;
+  scroll-behavior: smooth;
+}
+
+/* ── Paper Grain Texture via SVG filter ────────── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  pointer-events: none;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 200px 200px;
+}
+
+/* ── Warm vignette ─────────────────────────────── */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 998;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse 85% 75% at 50% 40%,
+    transparent 40%,
+    rgba(44, 18, 8, 0.28) 100%
+  );
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.75;
+  color: var(--ink);
+  background-color: var(--mahogany);
+  background-image:
+    /* wood-grain plank lines */
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 60px,
+      rgba(0,0,0,0.06) 60px,
+      rgba(0,0,0,0.06) 61px
+    ),
+    repeating-linear-gradient(
+      180deg,
+      transparent,
+      transparent 8px,
+      rgba(255,255,255,0.015) 8px,
+      rgba(255,255,255,0.015) 9px
+    ),
+    linear-gradient(160deg, #3a1508 0%, #2c1208 40%, #1e0c05 100%);
+  min-height: 100vh;
+}
+
+/* ── Page wrapper — the "open book" surface ────── */
+.page-wrap,
+main,
+[role="main"] {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 3.5rem 3rem 5rem;
+  background-color: var(--parchment);
+  background-image:
+    /* horizontal ruling lines, faint */
+    repeating-linear-gradient(
+      180deg,
+      transparent,
+      transparent 28px,
+      rgba(139, 90, 26, 0.06) 28px,
+      rgba(139, 90, 26, 0.06) 29px
+    ),
+    /* slight warm fade top-to-bottom */
+    linear-gradient(180deg, var(--cream) 0%, var(--parchment) 30%, #ead9b0 100%);
+  box-shadow:
+    0 0 0 1px rgba(44, 18, 8, 0.2),
+    4px 0 12px -2px rgba(0,0,0,0.35),
+    -4px 0 12px -2px rgba(0,0,0,0.35),
+    0 20px 60px rgba(0,0,0,0.5);
+  position: relative;
+  min-height: calc(100vh - var(--header-h, 72px));
+}
+
+/* Left-page shadow crease */
+.page-wrap::before,
+main::before,
+[role="main"]::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 28px;
+  background: linear-gradient(90deg, rgba(44,18,8,0.12) 0%, transparent 100%);
+  pointer-events: none;
+}
+
+/* ── Decorative top rule ───────────────────────── */
+.page-wrap::after,
+main::after,
+[role="main"]::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 3rem;
+  right: 3rem;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--gold) 20%, var(--amber) 50%, var(--gold) 80%, transparent);
+  opacity: 0.6;
+}
+
+/* ── Typography ────────────────────────────────── */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--mahogany);
+  line-height: 1.2;
+  letter-spacing: 0.01em;
+}
+
+h1 {
+  font-size: clamp(2.2rem, 5vw, 3.4rem);
+  font-weight: 700;
+  font-style: italic;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--amber);
+  position: relative;
+  text-shadow: 1px 1px 0 rgba(255,255,255,0.4);
+}
+
+h1::after {
+  content: '✦';
+  position: absolute;
+  bottom: -0.6rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--parchment);
+  padding: 0 0.5rem;
+  font-size: 0.7rem;
+  color: var(--amber);
+  font-style: normal;
+}
+
+h2 {
+  font-size: 1.8rem;
+  font-style: italic;
+  margin: 2rem 0 0.75rem;
+  color: var(--mahogany-mid);
+}
+
+p {
+  margin-bottom: 1rem;
+  color: var(--ink-faded);
+}
+
+/* ── Links ─────────────────────────────────────── */
+a {
+  color: var(--amber-deep);
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  text-underline-offset: 3px;
+  font-style: italic;
+  transition: color 0.2s, text-decoration-style 0.2s;
+}
+
+a:hover {
+  color: var(--rust);
+  text-decoration-style: solid;
+}
+
+/* ── Flash / Notice ────────────────────────────── */
+p:has(+ table),
+.notice {
+  background: linear-gradient(135deg, #f7edcc, #f0e0aa);
+  border-left: 3px solid var(--gold);
+  padding: 0.6rem 1rem;
+  font-size: 0.9rem;
+  color: var(--mahogany-mid);
+  font-style: italic;
+  margin-bottom: 1.5rem;
+  box-shadow: inset 0 0 0 1px rgba(184, 120, 42, 0.2);
+}
+
+/* ── Table — the catalogue ledger ─────────────── */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+  margin-bottom: 2rem;
+  border: 1px solid rgba(139, 90, 26, 0.3);
+  background: rgba(255,255,255,0.25);
+}
+
+thead {
+  background: linear-gradient(180deg, var(--mahogany-mid) 0%, var(--mahogany) 100%);
+  color: var(--gold-light);
+}
+
+thead th {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-right: 1px solid rgba(255,255,255,0.08);
+}
+
+thead th:last-child {
+  border-right: none;
+}
+
+tbody tr {
+  border-bottom: 1px solid rgba(139, 90, 26, 0.15);
+  transition: background 0.15s;
+}
+
+tbody tr:nth-child(even) {
+  background: rgba(184, 120, 42, 0.05);
+}
+
+tbody tr:hover {
+  background: rgba(184, 120, 42, 0.1);
+}
+
+td {
+  padding: 0.7rem 1rem;
+  vertical-align: middle;
+  color: var(--ink-faded);
+}
+
+td a {
+  font-style: normal;
+  font-weight: 500;
+  color: var(--mahogany-mid);
+  text-decoration: none;
+  border-bottom: 1px dotted var(--amber);
+}
+
+td a:hover {
+  color: var(--rust);
+  border-bottom-style: solid;
+}
+
+/* ── Definition list (show page) ───────────────── */
+dl {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.5rem 1.5rem;
+  margin: 1.5rem 0;
+  background: rgba(255,255,255,0.3);
+  border: 1px solid rgba(139, 90, 26, 0.2);
+  padding: 1.25rem 1.5rem;
+  box-shadow: inset 0 1px 3px rgba(44,18,8,0.06);
+}
+
+dt {
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--amber-deep);
+  padding-top: 0.1rem;
+  border-right: 1px solid rgba(184, 120, 42, 0.25);
+  padding-right: 1rem;
+}
+
+dd {
+  font-family: var(--font-body);
+  color: var(--ink-faded);
+  font-size: 1.05rem;
+}
+
+/* ── Forms ─────────────────────────────────────── */
+form div {
+  margin-bottom: 1.4rem;
+}
+
+label {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--amber-deep);
+  margin-bottom: 0.4rem;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="date"],
+textarea,
+select {
+  width: 100%;
+  padding: 0.6rem 0.85rem;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  color: var(--ink);
+  background: linear-gradient(180deg, #fdf7e8 0%, #f7edcc 100%);
+  border: 1px solid rgba(139, 90, 26, 0.4);
+  border-bottom-color: var(--amber);
+  box-shadow:
+    inset 0 2px 4px rgba(44, 18, 8, 0.08),
+    0 1px 0 rgba(255,255,255,0.7);
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  appearance: none;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+input[type="date"]:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--amber);
+  box-shadow:
+    inset 0 2px 4px rgba(44, 18, 8, 0.08),
+    0 0 0 3px rgba(184, 120, 42, 0.15);
+}
+
+/* ── Buttons ───────────────────────────────────── */
+input[type="submit"],
+button,
+.button {
+  font-family: var(--font-display);
+  font-size: 0.88rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s;
+}
+
+input[type="submit"],
+button[data-method="post"] {
+  background: linear-gradient(180deg, var(--mahogany-mid) 0%, var(--mahogany) 100%);
+  color: var(--gold-light);
+  padding: 0.65rem 2rem;
+  box-shadow:
+    0 2px 0 rgba(0,0,0,0.3),
+    inset 0 1px 0 rgba(255,255,255,0.08);
+  border: 1px solid rgba(0,0,0,0.3);
+}
+
+input[type="submit"]:hover,
+button[data-method="post"]:hover {
+  background: linear-gradient(180deg, #5a2810 0%, #3a1a08 100%);
+  box-shadow:
+    0 3px 0 rgba(0,0,0,0.35),
+    inset 0 1px 0 rgba(255,255,255,0.1);
+  transform: translateY(-1px);
+}
+
+input[type="submit"]:active,
+button[data-method="post"]:active {
+  transform: translateY(1px);
+  box-shadow: 0 1px 0 rgba(0,0,0,0.3);
+}
+
+/* Delete button */
+button[data-method="delete"],
+form[method="post"] button {
+  background: none;
+  color: var(--rust);
+  font-size: 0.78rem;
+  padding: 0.3rem 0.6rem;
+  border: 1px solid rgba(139, 58, 26, 0.35);
+  letter-spacing: 0.06em;
+  opacity: 0.75;
+}
+
+button[data-method="delete"]:hover,
+form[method="post"] button:hover {
+  opacity: 1;
+  background: rgba(139, 58, 26, 0.08);
+  border-color: var(--rust);
+}
+
+/* ── Validation errors ─────────────────────────── */
+form div:has(> div) > div {
+  background: linear-gradient(135deg, #f5e4c8, #eedcb0);
+  border: 1px solid rgba(139, 58, 26, 0.4);
+  border-left: 3px solid var(--rust);
+  padding: 0.8rem 1rem;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+form div:has(> div) ul {
+  list-style: none;
+  padding-left: 0.5rem;
+}
+
+form div:has(> div) li::before {
+  content: '§ ';
+  color: var(--rust);
+  font-family: var(--font-display);
+}
+
+/* ── Ornamental separator ──────────────────────── */
+.ornament,
+hr {
+  border: none;
+  text-align: center;
+  margin: 2rem 0;
+  color: var(--amber);
+  opacity: 0.6;
+  font-size: 1.1rem;
+  letter-spacing: 0.4em;
+}
+
+hr::after {
+  content: '— ✦ —';
+  font-family: var(--font-display);
+  color: var(--amber);
+}
+
+/* ── Inline actions row (show page) ────────────── */
+p + form,
+a + form {
+  display: inline;
+}
+
+/* ── Fade-in page animation ────────────────────── */
+main,
+.page-wrap,
+[role="main"] {
+  animation: page-turn 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  transform-origin: left center;
+}
+
+@keyframes page-turn {
+  from {
+    opacity: 0;
+    transform: perspective(1200px) rotateY(-4deg) translateX(-12px);
+    filter: brightness(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: perspective(1200px) rotateY(0deg) translateX(0);
+    filter: brightness(1);
+  }
+}
+
+/* ── Responsive ────────────────────────────────── */
+@media (max-width: 680px) {
+  main, .page-wrap, [role="main"] {
+    padding: 2rem 1.5rem 4rem;
+  }
+
+  main::after, .page-wrap::after, [role="main"]::after {
+    left: 1.5rem;
+    right: 1.5rem;
+  }
+
+  table {
+    font-size: 0.85rem;
+  }
+
+  td, thead th {
+    padding: 0.55rem 0.65rem;
+  }
+
+  dl {
+    grid-template-columns: 1fr;
+    gap: 0.2rem;
+  }
+
+  dt {
+    border-right: none;
+    border-bottom: 1px solid rgba(184, 120, 42, 0.2);
+    padding-bottom: 0.1rem;
+    margin-top: 0.6rem;
+  }
+
+  .site-header {
+    padding: 0 1.25rem;
+  }
+
+  .site-logo__sub {
+    display: none;
+  }
+}
+
+/* ══════════════════════════════════════════════════
+   SITE HEADER — the library's carved wooden fascia
+   ══════════════════════════════════════════════════ */
+
+:root {
+  --header-h: 72px;
+}
+
+.site-header {
+  height: var(--header-h);
+  display: flex;
+  align-items: center;
+  padding: 0 2.5rem;
+  background:
+    /* subtle cross-grain highlight */
+    repeating-linear-gradient(
+      180deg,
+      transparent,
+      transparent 5px,
+      rgba(255,255,255,0.018) 5px,
+      rgba(255,255,255,0.018) 6px
+    ),
+    /* vertical grain planks */
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 80px,
+      rgba(0,0,0,0.04) 80px,
+      rgba(0,0,0,0.04) 81px
+    ),
+    linear-gradient(180deg, #3e1a09 0%, #2c1208 60%, #1e0c05 100%);
+  border-bottom: 1px solid rgba(201, 150, 42, 0.25);
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.04),
+    0 3px 16px rgba(0,0,0,0.5),
+    inset 0 1px 0 rgba(255,255,255,0.06);
+  position: relative;
+  z-index: 10;
+}
+
+/* gold rule along the very bottom edge */
+.site-header::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(201, 150, 42, 0.6) 15%,
+    rgba(232, 193, 104, 0.85) 50%,
+    rgba(201, 150, 42, 0.6) 85%,
+    transparent 100%
+  );
+}
+
+/* ── Logo link ─────────────────────────────────── */
+.site-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  text-decoration: none;
+  color: var(--gold-light);
+  padding: 0.35rem 0.75rem 0.35rem 0.5rem;
+  border: 1px solid transparent;
+  position: relative;
+  transition: border-color 0.25s, background 0.25s;
+}
+
+.site-logo::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(201, 150, 42, 0);
+  transition: background 0.25s;
+}
+
+.site-logo:hover {
+  border-color: rgba(201, 150, 42, 0.3);
+  color: #f5d98a;
+}
+
+.site-logo:hover::before {
+  background: rgba(201, 150, 42, 0.06);
+}
+
+/* ── Ornamental marks ──────────────────────────── */
+.site-logo__mark {
+  font-size: 1.35rem;
+  color: var(--gold);
+  opacity: 0.7;
+  line-height: 1;
+  transition: opacity 0.25s, transform 0.35s;
+  display: inline-block;
+  font-family: Georgia, serif;
+}
+
+.site-logo__mark--right {
+  font-size: 1.1rem;
+  opacity: 0.4;
+}
+
+.site-logo:hover .site-logo__mark {
+  opacity: 1;
+  transform: scale(1.12);
+}
+
+.site-logo:hover .site-logo__mark--right {
+  opacity: 0.65;
+}
+
+/* ── Logotype text ─────────────────────────────── */
+.site-logo__text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+  gap: 0.18rem;
+}
+
+.site-logo__name {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 600;
+  font-style: italic;
+  letter-spacing: 0.04em;
+  color: var(--gold-light);
+  text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+  transition: color 0.25s;
+}
+
+.site-logo:hover .site-logo__name {
+  color: #f5d98a;
+}
+
+.site-logo__sub {
+  font-family: var(--font-body);
+  font-size: 0.6rem;
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(201, 150, 42, 0.6);
+  transition: color 0.25s;
+}
+
+.site-logo:hover .site-logo__sub {
+  color: rgba(232, 193, 104, 0.8);
+}
+
+/* ══════════════════════════════════════════════════
+   SITE FOOTER — minimal colophon
+   ══════════════════════════════════════════════════ */
+
+.site-footer {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 0 3rem 2rem;
+}
+
+.site-footer__rule {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(201, 150, 42, 0.45) 20%,
+    rgba(232, 193, 104, 0.65) 50%,
+    rgba(201, 150, 42, 0.45) 80%,
+    transparent
+  );
+  margin-bottom: 1rem;
+}
+
+.site-footer__row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.site-footer__links {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.site-footer__links a {
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-style: italic;
+  color: rgba(201, 150, 42, 0.45);
+  text-decoration: none;
+  letter-spacing: 0.02em;
+  transition: color 0.2s;
+}
+
+.site-footer__links a:hover {
+  color: var(--gold-light);
+}
+
+.site-footer__links span {
+  color: rgba(201, 150, 42, 0.2);
+  font-size: 0.65rem;
+  font-family: Georgia, serif;
+}
+
+.site-footer__copy {
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  color: rgba(201, 150, 42, 0.28);
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+  margin: 0;
+}
+
+@media (max-width: 680px) {
+  .site-footer {
+    padding: 0 1.5rem 2rem;
+  }
+
+  .site-footer__row {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}

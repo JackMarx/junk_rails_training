@@ -1,0 +1,41 @@
+<% content_for :title, "Books" %>
+
+<h1>Books</h1>
+
+<% if notice.present? %>
+  <p><%= notice %></p>
+<% end %>
+
+<% if @books.any? %>
+  <table>
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Published</th>
+        <th>Cost</th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @books.each do |book| %>
+        <tr>
+          <td><%= link_to book.title, book_path(book) %></td>
+          <td><%= book.author %></td>
+          <td><%= book.published_on %></td>
+          <td><%= number_to_currency(book.cost) %></td>
+          <td><%= render "votes/button", book: book, voted: @voted_book_ids.include?(book.id) %></td>
+          <td>
+            <%= button_to "Delete", book_path(book), method: :delete,
+                data: { confirm: "Delete #{book.title}?" } %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p>No books yet.</p>
+<% end %>
+
+<%= link_to "Add a Book", new_book_path %>

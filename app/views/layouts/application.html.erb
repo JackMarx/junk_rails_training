@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title><%= content_for(:title) || "The Library" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="The Library">
+    <meta name="mobile-web-app-capable" content="yes">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= yield :head %>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
+
+    <link rel="icon" href="/icon.png" type="image/png">
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/icon.png">
+
+    <%# Includes all stylesheet files in app/assets/stylesheets %>
+    <%= stylesheet_link_tag :app %>
+  </head>
+
+  <body>
+    <header class="site-header">
+      <%= link_to root_path, class: "site-logo", aria: { label: "The Library — return to home" } do %>
+        <span class="site-logo__mark">☙</span>
+        <span class="site-logo__text">
+          <span class="site-logo__name">The Library</span>
+          <span class="site-logo__sub">Est. MMXXVI &middot; Rare Books &amp; Curiosities</span>
+        </span>
+        <span class="site-logo__mark site-logo__mark--right">❧</span>
+      <% end %>
+      <nav class="site-nav" aria-label="Primary navigation">
+        <%= link_to "Staff Picks", root_path, class: "site-nav__link" %>
+        <%= link_to "The Stacks", books_path, class: "site-nav__link" %>
+      </nav>
+    </header>
+
+    <main>
+      <%= yield %>
+    </main>
+
+    <footer class="site-footer">
+      <div class="site-footer__rule"></div>
+      <div class="site-footer__row">
+        <nav class="site-footer__links" aria-label="Footer navigation">
+          <%= link_to "Catalogue", books_path %>
+          <span>·</span>
+          <a href="#">New Arrivals</a>
+          <span>·</span>
+          <a href="#">Reading Lists</a>
+          <span>·</span>
+          <a href="#">About</a>
+          <span>·</span>
+          <a href="#">Contact</a>
+          <span>·</span>
+          <a href="#">Goodreads</a>
+          <span>·</span>
+          <a href="#">Instagram</a>
+        </nav>
+        <p class="site-footer__copy">&#169; <%= Date.current.year %> The Library</p>
+      </div>
+    </footer>
+  </body>
+</html>
